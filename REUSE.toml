@@ -20,7 +20,7 @@ SPDX-FileCopyrightText = "VEYRA contributors"
 SPDX-License-Identifier = "CC-BY-4.0"
 
 [[annotations]]
-path = ["LICENSES/**", "LICENSE", "CODE_OF_CONDUCT.md", "Cargo.lock"]
+path = ["LICENSES/**", "LICENSE", "CODE_OF_CONDUCT.md", "Cargo.lock", "apps/launcher/pnpm-lock.yaml"]
 precedence = "override"
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"

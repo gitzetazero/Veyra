@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0-only
-# Rust workspace. The Tauri app (apps/launcher/src-tauri) joins as a member when it is created.
+# Rust workspace.
 [workspace]
 resolver = "3"
-members = ["crates/launcher-core", "crates/manifest"]
+members = ["crates/launcher-core", "crates/manifest", "apps/launcher/src-tauri"]
+# The desktop app needs its UI built first and system WebView libraries, so it builds in its own CI job.
+default-members = ["crates/launcher-core", "crates/manifest"]
 
 [workspace.package]
 edition = "2024"

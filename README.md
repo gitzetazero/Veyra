@@ -14,8 +14,7 @@ VEYRA is not affiliated with or endorsed by Mojang Studios or Microsoft. "Minecr
 | `crates/launcher-core/` | Launcher core: install, Java runtime, instances, integrity, launch, accounts | Rust | GPL-3.0-only |
 | `crates/manifest/` | Release manifest schema and signature verification | Rust | Apache-2.0 |
 | `tools/release/` | Release tooling: builds and signs the manifest | Go | GPL-3.0-only |
-
-The launcher application (Tauri 2, Rust backend with a web UI) will live in `apps/launcher/`.
+| `apps/launcher/` | Desktop launcher: Tauri 2 (Rust in `src-tauri/`) with a React UI in `src/` | Rust, TypeScript | GPL-3.0-only |
 
 ## Technical decisions
 
@@ -46,6 +45,14 @@ cargo test --workspace
 ```bash
 cd tools/release && go test ./...
 ```
+
+Launcher (also needs Node.js LTS and pnpm):
+
+```bash
+cd apps/launcher && pnpm install && pnpm tauri dev
+```
+
+To work on the UI alone in a browser: `pnpm dev` and open http://localhost:1420.
 
 ## Contributing
 

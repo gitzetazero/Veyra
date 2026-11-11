@@ -6,6 +6,12 @@ updates:
     groups:
       minor-and-patch:
         update-types: [minor, patch]
+  - package-ecosystem: npm
+    directory: /apps/launcher
+    schedule: { interval: weekly }
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
   - package-ecosystem: gomod
     directory: /tools/release
     schedule: { interval: weekly }

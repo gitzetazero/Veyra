@@ -1,0 +1,23 @@
+[package]
+name = "veyra-launcher"
+version = "0.1.0"
+description = "VEYRA launcher desktop app (Tauri)."
+license = "GPL-3.0-only"
+publish = false
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+
+[lib]
+name = "veyra_launcher_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.7.4", features = [] }
+
+[dependencies]
+tauri = { version = "2.12.5", features = [] }
+serde = { version = "1.0.229", features = ["derive"] }
+
+[lints]
+workspace = true
