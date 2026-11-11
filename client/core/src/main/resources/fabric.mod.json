@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "veyra",
+  "version": "${version}",
+  "name": "VEYRA",
+  "description": "VEYRA client core: module system, HUD and settings.",
+  "license": "GPL-3.0-only",
+  "contact": {},
+  "environment": "client",
+  "entrypoints": {
+    "client": ["dev.veyra.core.VeyraClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

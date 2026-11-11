@@ -1,0 +1,32 @@
+# Dependencies and build output
+node_modules/
+dist/
+out/
+coverage/
+*.tsbuildinfo
+.vite/
+client/**/build/
+client/.gradle/
+client/run/
+.gradle/
+
+# Credentials — never commit
+*.pem
+*.key
+*.p12
+*.pfx
+.env
+.env.*
+!.env.example
+
+# Editors / OS
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+
+# Rust build output
+/target/

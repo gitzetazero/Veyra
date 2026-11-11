@@ -1,0 +1,18 @@
+VEYRA is distributed under several licences, depending on the component.
+The authoritative mapping from paths to licences is REUSE.toml; full licence texts are in LICENSES/.
+
+  crates/launcher-core/, tools/, client/core/, client/modules/, apps/
+      GNU General Public License v3.0 only (GPL-3.0-only)
+      LICENSES/GPL-3.0-only.txt
+
+  client/api/, crates/manifest/
+      Apache License 2.0 (Apache-2.0)
+      LICENSES/Apache-2.0.txt
+
+  Documentation (*.md)
+      Creative Commons Attribution 4.0 International (CC-BY-4.0)
+      LICENSES/CC-BY-4.0.txt
+
+The VEYRA name and logo are not licensed under any of the above; see TRADEMARKS.md.
+
+Copyright (C) VEYRA contributors.

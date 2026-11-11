@@ -1,0 +1,12 @@
+[package]
+name = "veyra-manifest"
+version = "0.0.0"
+description = "VEYRA release manifest: schema and Ed25519 signature verification."
+license = "Apache-2.0"
+publish = false
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true

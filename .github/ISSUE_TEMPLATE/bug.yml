@@ -1,0 +1,26 @@
+name: Bug report
+description: Something does not work as documented
+labels: ['type:bug', 'status:needs-triage']
+body:
+  - type: textarea
+    id: what
+    attributes: { label: What happened?, description: Include what you expected instead. }
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes: { label: Steps to reproduce }
+    validations: { required: true }
+  - type: input
+    id: version
+    attributes: { label: VEYRA version / commit }
+    validations: { required: true }
+  - type: input
+    id: os
+    attributes: { label: Operating system and architecture }
+    validations: { required: true }
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Launcher or game logs. Remove anything that looks like a token, email or file path you don't want public.
+      render: text
