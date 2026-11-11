@@ -3,6 +3,8 @@
 //! `paths`, `net` (downloader), `log`, `settings`, `install`, `java`, `instances`, `integrity`, `launch`, `accounts`.
 #![forbid(unsafe_code)]
 
+pub mod options;
+
 /// Crate name, used by smoke tests until real modules exist.
 pub const CRATE_NAME: &str = env!("CARGO_PKG_NAME");
 

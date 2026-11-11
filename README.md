@@ -10,7 +10,7 @@ VEYRA is not affiliated with or endorsed by Mojang Studios or Microsoft. "Minecr
 
 | Path | What | Language | Licence |
 |---|---|---|---|
-| `client/` | Fabric mod for Minecraft 26.3 (`api`, `core`, `modules`) | Java 25 | GPL-3.0-only; `client/api` Apache-2.0 |
+| `client/` | The VEYRA client (`api`, `core`, `modules`) | Java | GPL-3.0-only; `client/api` Apache-2.0 |
 | `crates/launcher-core/` | Launcher core: install, Java runtime, instances, integrity, launch, accounts | Rust | GPL-3.0-only |
 | `crates/manifest/` | Release manifest schema and signature verification | Rust | Apache-2.0 |
 | `tools/release/` | Release tooling: builds and signs the manifest | Go | GPL-3.0-only |
@@ -18,7 +18,10 @@ VEYRA is not affiliated with or endorsed by Mojang Studios or Microsoft. "Minecr
 
 ## Technical decisions
 
-- **Minecraft 26.3, Fabric, Java 25, Mojang mappings.** The client renders only through Minecraft's rendering abstractions. Direct OpenGL calls are forbidden, and the build fails on them, because Minecraft is moving to Vulkan.
+- **The client is VEYRA, not a mod players install.** It runs on Fabric underneath, but players never see or install Fabric: they pick the official VEYRA instance and a Minecraft version.
+- **Minecraft 1.20 and newer.** One codebase: a shared core (modules, HUD, settings) plus a thin layer per Minecraft version. Today the build covers 26.3; more versions are added one by one. Mojang mappings throughout. Rendering goes only through Minecraft's rendering abstractions; direct OpenGL calls are forbidden and fail the build, because Minecraft is moving to Vulkan.
+- **Instances.** The official VEYRA instance is always listed first, cannot be deleted and can be reset. Players add their own custom instances (a copy of VEYRA, vanilla, Fabric, or an imported modpack), which are labelled Custom.
+- **One language for launcher and game.** The launcher offers every language Minecraft supports, using Minecraft's own codes, and writes the choice to each instance's `options.txt` before launch. The launcher UI is translated into English and Spanish so far; other languages fall back to English in the launcher only.
 - **Signed releases.** Each release publishes a `manifest.json` with SHA-256 hashes of every file and a detached Ed25519 signature. The launcher verifies both before every launch.
 - **Microsoft login.** VEYRA uses its own Microsoft Entra application, with the client ID taken from `VEYRA_MSA_CLIENT_ID` at build time; forks must register their own. Tokens are encrypted with a key held in the OS credential store and are never written in plain text. Releases with Microsoft login need Mojang/Microsoft to approve the application first.
 - **Official and custom modes.** Official instances must match the signed manifest. Custom instances can run anything and are labelled "Custom", with no penalty.
