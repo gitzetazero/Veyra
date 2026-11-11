@@ -39,7 +39,7 @@ cd client && ./gradlew build
 ```
 
 ```bash
-cargo test --workspace
+cargo test
 ```
 
 ```bash
