@@ -4,6 +4,9 @@ all-features = true
 
 [advisories]
 version = 2
+ignore = [
+  { id = "RUSTSEC-2024-0370", reason = "proc-macro-error is unmaintained (not vulnerable); it is a build-time macro pulled in by Tauri's GTK dependencies on Linux, with no upstream replacement yet." },
+]
 
 [licenses]
 version = 2

@@ -30,3 +30,6 @@ Thumbs.db
 
 # Rust build output
 /target/
+
+# Tauri generated schemas
+apps/launcher/src-tauri/gen/
