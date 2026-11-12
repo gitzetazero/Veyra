@@ -8,7 +8,9 @@ export const en_us = {
   'nav.settings': 'Settings',
   'nav.account': 'Account',
 
-  'instances.intro': 'Pick an instance to change its version, reset it or delete it. The bar below always plays the selected one.',
+  'nav.installation': 'Installation',
+  'account.microsoft': 'Microsoft account',
+  'home.client': 'Client',
   'instance.official': 'Official',
   'instance.custom': 'Custom',
   'instance.officialName': 'VEYRA',

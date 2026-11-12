@@ -9,7 +9,9 @@ export const es_es: Messages = {
   'nav.settings': 'Ajustes',
   'nav.account': 'Cuenta',
 
-  'instances.intro': 'Elige una instancia para cambiar su versión, restablecerla o eliminarla. La barra de abajo siempre juega la seleccionada.',
+  'nav.installation': 'Instalación',
+  'account.microsoft': 'Cuenta Microsoft',
+  'home.client': 'Client',
   'instance.official': 'Oficial',
   'instance.custom': 'Personalizada',
   'instance.officialName': 'VEYRA',
