@@ -31,3 +31,24 @@ export const UserIcon = (p: SVGProps<SVGSVGElement>) => (
 export const PinIcon = (p: SVGProps<SVGSVGElement>) => (
   <svg {...base} width={12} height={12} strokeWidth={2.2} {...p}><path d="M12 17v4M8 3h8l-1 6 3 4H6l3-4z" /></svg>
 );
+
+// Window controls: thin single-stroke glyphs.
+const win = { width: 14, height: 14, viewBox: '0 0 14 14', fill: 'none', stroke: 'currentColor', strokeWidth: 1.2, 'aria-hidden': true } as const;
+export const MinimizeIcon = () => (
+  <svg {...win}><path d="M2 7h10" /></svg>
+);
+export const MaximizeIcon = () => (
+  <svg {...win}><rect x="2.5" y="2.5" width="9" height="9" /></svg>
+);
+export const RestoreIcon = () => (
+  <svg {...win}><rect x="2.5" y="4.5" width="7" height="7" /><path d="M4.5 4.5v-2h7v7h-2" /></svg>
+);
+export const CloseIcon = () => (
+  <svg {...win}><path d="m2.5 2.5 9 9M11.5 2.5l-9 9" /></svg>
+);
+export const NotesIcon = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}><path d="M7 3.5h8l3 3v14H7z" /><path d="M14.5 3.5v3.5H18M10 11h5M10 14h5M10 17h3" /></svg>
+);
+export const SlidersIcon = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}><path d="M6 4v16M12 4v16M18 4v16" /><path d="M4 9h4M10 15h4M16 8h4" /></svg>
+);

@@ -2,12 +2,14 @@
 import { useState } from 'react';
 import { INITIAL_INSTANCES, OFFICIAL_ID, type Instance } from './data';
 import { I18nProvider, useI18n } from './i18n';
-import { ChevronIcon, PlusIcon, SettingsIcon, UserIcon, VeyraMark } from './icons';
+import { Backdrop } from './Backdrop';
+import { ChevronIcon, NotesIcon, PlusIcon, SlidersIcon, UserIcon, VeyraMark } from './icons';
 import { Account } from './screens/Account';
 import { CreateInstance } from './screens/CreateInstance';
 import { Home, News } from './screens/Home';
 import { InstanceView } from './screens/InstanceView';
 import { Settings } from './screens/Settings';
+import { WindowControls } from './WindowControls';
 
 type Screen = 'play' | 'installation' | 'news' | 'create' | 'settings' | 'account';
 
@@ -60,22 +62,29 @@ function Launcher() {
 
   return (
     <div className="app">
-      <div className="backdrop" aria-hidden />
+      <Backdrop />
 
-      <header className="header">
+      {/* Frameless window: this strip and the header's empty space move the window. */}
+      <div className="titlebar" data-tauri-drag-region>
+        <WindowControls />
+      </div>
+
+      <header className="header" data-tauri-drag-region>
         <button
           className="account-chip"
           aria-current={screen === 'account' ? 'page' : undefined}
           onClick={() => setScreen('account')}
         >
           <span className="account-avatar" aria-hidden>
-            <UserIcon width={20} height={20} />
+            <UserIcon width={22} height={22} />
           </span>
           <span className="account-chip-text">
-            <span className="account-chip-name">{t('account.signedOut')}</span>
+            <span className="account-chip-name">
+              {t('account.signedOut')}
+              <ChevronIcon className="account-chip-chevron" />
+            </span>
             <span className="account-chip-kind">{t('account.microsoft')}</span>
           </span>
-          <ChevronIcon className="account-chip-chevron" />
         </button>
 
         <div className="header-center">
@@ -133,15 +142,26 @@ function Launcher() {
           </nav>
         </div>
 
-        <button
-          className="icon-button"
-          aria-current={screen === 'settings' ? 'page' : undefined}
-          title={t('nav.settings')}
-          onClick={() => setScreen('settings')}
-        >
-          <SettingsIcon />
-          <span className="visually-hidden">{t('nav.settings')}</span>
-        </button>
+        <div className="header-actions">
+          <button
+            className="tile-button"
+            aria-current={screen === 'news' ? 'page' : undefined}
+            title={t('home.news')}
+            onClick={() => setScreen('news')}
+          >
+            <NotesIcon />
+            <span className="visually-hidden">{t('home.news')}</span>
+          </button>
+          <button
+            className="tile-button"
+            aria-current={screen === 'settings' ? 'page' : undefined}
+            title={t('nav.settings')}
+            onClick={() => setScreen('settings')}
+          >
+            <SlidersIcon />
+            <span className="visually-hidden">{t('nav.settings')}</span>
+          </button>
+        </div>
       </header>
 
       <main className={`content${screen === 'play' ? ' content-play' : ''}`}>
