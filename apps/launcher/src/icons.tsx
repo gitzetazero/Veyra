@@ -16,9 +16,9 @@ export const ChevronIcon = (p: SVGProps<SVGSVGElement>) => (
 /** VEYRA mark: a cut amethyst crystal forming a V. Placeholder until the owner picks a logo. */
 export const VeyraMark = (p: SVGProps<SVGSVGElement>) => (
   <svg width={30} height={30} viewBox="0 0 32 32" aria-hidden {...p}>
-    <path d="M4 6h8l4 15 4-15h8L18 28h-4z" fill="#A47CFF" />
-    <path d="M12 6l4 15V6z" fill="#C9B2FF" />
-    <path d="M20 6l-4 15 6-15z" fill="#7C55E0" />
+    <path d="M4 6h8l4 15 4-15h8L18 28h-4z" fill="#FFB02E" />
+    <path d="M12 6l4 15V6z" fill="#FFD27A" />
+    <path d="M20 6l-4 15 6-15z" fill="#FF6B4A" />
   </svg>
 );
 

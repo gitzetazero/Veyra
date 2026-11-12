@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: GPL-3.0-only
-import { useState, type ReactNode } from 'react';
-import { INITIAL_INSTANCES, OFFICIAL_ID, type Instance } from './data';
+import { useState } from 'react';
+import { INITIAL_INSTANCES, OFFICIAL_ID, VEYRA_VERSIONS, type Instance } from './data';
 import { I18nProvider, useI18n } from './i18n';
-import { HomeIcon, PinIcon, PlusIcon, SettingsIcon, UserIcon, VeyraMark } from './icons';
+import { ChevronIcon, UserIcon, VeyraMark } from './icons';
 import { Account } from './screens/Account';
 import { CreateInstance } from './screens/CreateInstance';
 import { Home } from './screens/Home';
 import { InstanceView } from './screens/InstanceView';
+import { Instances } from './screens/Instances';
 import { Settings } from './screens/Settings';
 
-type Screen = 'home' | 'instance' | 'create' | 'settings' | 'account';
+type Screen = 'home' | 'instances' | 'instance' | 'create' | 'settings' | 'account';
 
 export function App() {
   return (
@@ -24,9 +25,12 @@ function Launcher() {
   const [instances, setInstances] = useState<Instance[]>(INITIAL_INSTANCES);
   const [selectedId, setSelectedId] = useState(OFFICIAL_ID);
   const [screen, setScreen] = useState<Screen>('home');
+  const [notice, setNotice] = useState<string | null>(null);
 
   const selected = instances.find((i) => i.id === selectedId) ?? instances[0];
   if (!selected) return null;
+
+  const updateInstance = (next: Instance) => setInstances((list) => list.map((i) => (i.id === next.id ? next : i)));
 
   const openInstance = (id: string) => {
     setSelectedId(id);
@@ -37,68 +41,52 @@ function Launcher() {
     if (id === OFFICIAL_ID) return; // The official instance can never be removed.
     setInstances((list) => list.filter((i) => i.id !== id));
     setSelectedId(OFFICIAL_ID);
-    setScreen('home');
+    setScreen('instances');
   };
 
-  const railButton = (target: Screen, label: string, icon: ReactNode) => (
-    <button
-      className="rail-item"
-      aria-current={screen === target ? 'page' : undefined}
-      onClick={() => setScreen(target)}
-      title={label}
-    >
-      {icon}
-      <span className="visually-hidden">{label}</span>
-    </button>
-  );
+  const tabs: { id: Screen; label: string; active: boolean }[] = [
+    { id: 'home', label: t('nav.home'), active: screen === 'home' },
+    { id: 'instances', label: t('nav.instances'), active: ['instances', 'instance', 'create'].includes(screen) },
+    { id: 'settings', label: t('nav.settings'), active: screen === 'settings' },
+  ];
 
   return (
-    <div className="shell">
-      <nav className="rail" aria-label={t('nav.instances')}>
-        {railButton('home', t('nav.home'), <HomeIcon />)}
-        <hr className="rail-divider" />
+    <div className="app">
+      <div className="backdrop" aria-hidden />
 
-        <ul className="rail-instances">
-          {instances.map((i) => (
-            <li key={i.id}>
-              <button
-                className={`rail-instance${i.id === selectedId ? ' is-selected' : ''}`}
-                aria-current={screen === 'instance' && i.id === selectedId ? 'page' : undefined}
-                onClick={() => openInstance(i.id)}
-                title={`${i.name} (${i.kind === 'official' ? t('instance.official') : t('instance.custom')})`}
-              >
-                {i.kind === 'official' ? (
-                  <>
-                    <VeyraMark />
-                    <PinIcon className="rail-pin" />
-                  </>
-                ) : (
-                  <span className="rail-initial" aria-hidden>
-                    {i.name.charAt(0).toUpperCase()}
-                  </span>
-                )}
-                <span className="visually-hidden">{i.name}</span>
-              </button>
-            </li>
+      <header className="topbar">
+        <VeyraMark className="topbar-mark" />
+        <nav className="tabs" aria-label="VEYRA">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              className="tab"
+              aria-current={tab.active ? 'page' : undefined}
+              onClick={() => setScreen(tab.id)}
+            >
+              {tab.label}
+            </button>
           ))}
-        </ul>
-
-        <hr className="rail-divider" />
-        {railButton('create', t('nav.newInstance'), <PlusIcon />)}
-        <div className="rail-spacer" />
-        {railButton('settings', t('nav.settings'), <SettingsIcon />)}
-        {railButton('account', t('nav.account'), <UserIcon />)}
-      </nav>
+        </nav>
+        <button
+          className="account-button"
+          aria-current={screen === 'account' ? 'page' : undefined}
+          onClick={() => setScreen('account')}
+        >
+          <span className="account-avatar" aria-hidden>
+            <UserIcon width={16} height={16} />
+          </span>
+          {t('account.signedOut')}
+        </button>
+      </header>
 
       <main className="content">
-        {screen === 'home' && <Home instance={selected} instances={instances} onSelect={setSelectedId} />}
+        {screen === 'home' && <Home instance={selected} />}
+        {screen === 'instances' && (
+          <Instances instances={instances} onOpen={openInstance} onCreate={() => setScreen('create')} />
+        )}
         {screen === 'instance' && (
-          <InstanceView
-            key={selected.id}
-            instance={selected}
-            onChange={(next) => setInstances((list) => list.map((i) => (i.id === next.id ? next : i)))}
-            onDelete={deleteInstance}
-          />
+          <InstanceView key={selected.id} instance={selected} onChange={updateInstance} onDelete={deleteInstance} />
         )}
         {screen === 'create' && (
           <CreateInstance
@@ -111,6 +99,51 @@ function Launcher() {
         {screen === 'settings' && <Settings />}
         {screen === 'account' && <Account />}
       </main>
+
+      <footer className="playbar">
+        <label className="picker">
+          {selected.kind === 'official' ? (
+            <VeyraMark className="picker-icon" />
+          ) : (
+            <span className="picker-initial" aria-hidden>
+              {selected.name.charAt(0).toUpperCase()}
+            </span>
+          )}
+          <span className="visually-hidden">{t('nav.instances')}</span>
+          <select value={selected.id} onChange={(e) => setSelectedId(e.target.value)}>
+            {instances.map((i) => (
+              <option key={i.id} value={i.id}>
+                {i.name} ({i.kind === 'official' ? t('instance.official') : t('instance.custom')})
+              </option>
+            ))}
+          </select>
+          <ChevronIcon className="picker-chevron" />
+        </label>
+
+        <label className="picker picker-version">
+          <span className="visually-hidden">{t('instance.version')}</span>
+          <select
+            value={selected.mcVersion}
+            disabled={selected.kind !== 'official'}
+            onChange={(e) => updateInstance({ ...selected, mcVersion: e.target.value })}
+          >
+            {(selected.kind === 'official' ? VEYRA_VERSIONS : [selected.mcVersion]).map((v) => (
+              <option key={v} value={v}>
+                {v}
+              </option>
+            ))}
+          </select>
+          <ChevronIcon className="picker-chevron" />
+        </label>
+
+        <p className="playbar-status" role="status">
+          {notice ?? t('home.notInstalled')}
+        </p>
+
+        <button className="play" onClick={() => setNotice(t('home.playNotBuilt'))}>
+          {t('home.play')}
+        </button>
+      </footer>
     </div>
   );
 }
